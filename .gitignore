@@ -1,0 +1,19 @@
+# Node modules
+node_modules/
+
+# Arquivos gerados pelo ambiente de desenvolvimento
+.DS_Store
+.env
+npm-debug.log
+yarn-error.log
+
+# Arquivos gerados pelo build
+build/
+dist/
+out/
+*.zip
+*.tgz
+
+# Dependências geradas por ferramentas de build
+/.pnp
+.pnp.js
