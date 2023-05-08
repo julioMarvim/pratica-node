@@ -21,15 +21,18 @@ function checkCurso(req, res, next){
 }
 
 function checkIndexCurso(req, res, next) {
-  const { index } = req.params;
-  if(!cursos.indexOf(index)){
+  const curso = cursos[req.params.index];
+  if(!curso){
     return res.status(404).json({error: 'Id informado não encontrado.'})
   }
+
+  req.curso = curso;
+
+  return next();
 }
 
-server.get('/cursos/:index', (req, res) => {
-  const { index } = req.params;
-  return res.json(cursos[index]);
+server.get('/cursos/:index', checkIndexCurso, (req, res) => {
+  return res.json(req.curso);
 })
 
 server.get('/cursos', (req, res) =>{
@@ -42,7 +45,8 @@ server.post('/cursos', checkCurso, (req, res) =>{
   return res.json(cursos);
 })
 
-server.put('/cursos/:index', checkCurso, (req, res) =>{
+//Podemos utilizar quantos middlewares forem necessários
+server.put('/cursos/:index', checkCurso, checkIndexCurso, (req, res) =>{
   const { index } = req.params;
   const { name }  = req.body;
 
